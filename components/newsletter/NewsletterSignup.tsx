@@ -85,7 +85,6 @@ export default function NewsletterSignup() {
           overflow: "hidden",
           opacity: 0,
           pointerEvents: "none",
-          tabIndex: -1,
         }}
       >
         <label htmlFor="newsletter-website">Website</label>
