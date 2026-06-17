@@ -227,22 +227,26 @@ button {
   color: var(--blue);
 }
 
-/* Scroll reveal — pair with JS IntersectionObserver (hooks/useReveal.ts) */
+/* Scroll reveal — pair with JS IntersectionObserver (hooks/useReveal.ts).
+   Progressive enhancement: content is visible by default. Only when JS is
+   active (the `js-reveal` flag is set on <html> by the head script) AND the
+   user hasn't asked to reduce motion do we hide-then-animate. This guarantees
+   no-JS users and non-rendering crawlers never see blank content. */
 .reveal {
-  opacity: 0;
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .reveal {
+  html.js-reveal .reveal {
+    opacity: 0;
     transform: translateY(18px);
     transition: opacity 0.7s var(--ease-out-expo),
                 transform 0.7s var(--ease-out-expo);
   }
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: none;
+  html.js-reveal .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Delay helpers (only meaningful when motion is allowed) */

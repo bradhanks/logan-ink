@@ -40,6 +40,10 @@ export function getInitialThemeScript(): string {
       ? stored
       : (prefersDark ? "dark" : "light");
     document.documentElement.dataset.theme = theme;
+    // Mark JS as active so scroll-reveal can hide-then-animate. Without JS this
+    // class is never added, so .reveal content stays visible (progressive
+    // enhancement — no hidden content for no-JS users or non-rendering crawlers).
+    document.documentElement.classList.add("js-reveal");
   } catch (_) {}
 })();`
 }
