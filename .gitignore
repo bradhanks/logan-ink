@@ -42,3 +42,6 @@ next-env.d.ts
 
 # design reference export (large, local-only)
 /claude_design_project_export
+
+# claude code local
+/.claude
