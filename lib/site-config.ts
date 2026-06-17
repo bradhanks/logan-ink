@@ -23,8 +23,8 @@ export const siteConfig = {
   /** TODO(content): set the Twitter/X handle if there is one, else leave null. */
   twitterHandle: null as string | null,
   themeColor: {
-    light: "#ffffff",
-    dark: "#0a0a0a",
+    light: "#F8F5F0",
+    dark: "#070C1A",
   },
 } as const;
 

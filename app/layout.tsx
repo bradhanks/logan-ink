@@ -1,23 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
+import { fraunces, newsreader, outfit } from "@/lib/fonts";
+import { getInitialThemeScript } from "@/lib/theme";
 import { baseMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/lib/site-config";
+import { ConsentBanner } from "@/components/layout/ConsentBanner";
 import { WebVitals } from "./web-vitals";
 import "./globals.css";
-
-// Self-hosted via next/font (no render-blocking external request). `swap`
-// avoids invisible text (FOIT); fonts are preloaded by default.
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 // Page metadata (title/description/OG) is composed from lib/metadata.
 // Individual pages override with `buildMetadata({ ... })`.
@@ -41,10 +30,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${newsreader.variable} ${outfit.variable} h-full antialiased`}
     >
+      <head>
+        {/* Synchronous theme resolution before first paint — prevents FOUC.
+            Content is a static IIFE string with no user input; not an XSS risk. */}
+        <script dangerouslySetInnerHTML={{ __html: getInitialThemeScript() }} />
+      </head>
       <body className="min-h-full flex flex-col">
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID ?? "GTM-TXP27537"} />
         {children}
+        <ConsentBanner />
         <WebVitals />
       </body>
     </html>
