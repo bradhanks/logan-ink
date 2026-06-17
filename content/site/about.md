@@ -1,0 +1,19 @@
+---
+title: About
+---
+
+I work where the careful numbers meet the careful sentences.
+
+For as long as I can remember I've kept two habits running at full ramp at once. One is the analytic habit — the pull toward a clean dataset, a well-specified question, the small honest thrill of a model that finally fits. The other is the writing habit — the conviction that a finding only matters once someone can read it and feel why it should change what they do. I never learned to pick a side, and population science turned out to be the rare field that rewards refusing to.
+
+I'm an undergraduate at Utah State University, class of 2028, studying my way toward cancer prevention and population health. What drew me in wasn't a single dramatic moment so much as a slow realization: the largest gains in public health rarely come from the newest molecule. They come from getting a known, effective intervention to the people who don't yet have it — and from understanding, with real rigor, why they don't. That's an engineering problem and a human one at the same time. It needs spreadsheets and it needs listening.
+
+HPV vaccination is where that conviction has found its sharpest focus for me. Here is a vaccine that prevents cancer, full stop, and yet whole communities — rural, underserved, often Spanish-speaking — see far lower coverage than they should. The gap isn't mysterious so much as under-attended: distance, trust, messaging, access, the texture of a place. Closing it is exactly the kind of problem that needs both hemispheres.
+
+Much of what I'm learning right now I'm learning in the orbit of Dr. Deanna Kepka's work. She's a tenured associate professor in the University of Utah's College of Nursing and an investigator in Huntsman Cancer Institute's Cancer Control and Population Sciences program, where she leads the 500-member Mountain West HPV Vaccination Coalition and, as of 2025, HCI's inaugural Global Oncology Initiative. Her research has long centered on raising HPV vaccination in the rural Mountain West — including Spanish-language fotonovela and radionovela interventions that meet communities in their own idiom rather than demanding they come to ours. Getting to watch how that work is actually built — how a question becomes a design, a design becomes data, data becomes something a clinic or a county can use — has been the real curriculum. [confirm: the specific way Logan's involvement is described — e.g. "research assistant," "mentee," informal vs. formal role.]
+
+What I'm picking up, mostly, is methods and humility. How to frame a population-science question so the answer means something. The basics of community-based participatory research — that the people closest to a problem are collaborators, not subjects. How to read a coverage map without flattening the lives underneath it. I'm early, and I try to hold that honestly: I'm learning to clean data, to read the literature critically, to ask better questions than I can yet answer. [confirm: specific skills/tools Logan has actually used — e.g. R, REDCap, survey design, GIS.]
+
+Where I'm headed is a top graduate program in cancer prevention or population science — and I want to be clear about why, because it isn't a scoreboard. It's that the questions I care about are big enough to need a lifetime of training to do justice to, and the people who train you well are worth crossing the country for. I'd rather be the least experienced person in a room full of people doing serious work than the most comfortable person anywhere else.
+
+If there's a thread under all of it, it's this: I think prevention is one of the most quietly radical things a society can choose, and I want to spend my work making it reach further. The cancer that never happens leaves no story to tell — which is exactly why someone has to do the math, and then write it down well enough that it matters.
