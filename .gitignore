@@ -45,3 +45,6 @@ next-env.d.ts
 
 # claude code local
 /.claude
+
+# stray local tool dir
+/.claire
