@@ -113,7 +113,7 @@ export function Nav() {
           {/* Right-side controls */}
           <div className="nav-actions">
             <Link
-              href="/about#contact"
+              href="/contact"
               className="btn-primary nav-cta"
             >
               Get in touch
@@ -184,7 +184,7 @@ export function Nav() {
           })}
           <div className="nav-mobile-cta-wrap">
             <Link
-              href="/about#contact"
+              href="/contact"
               className="btn-primary"
               style={{ display: "block", textAlign: "center" }}
             >
