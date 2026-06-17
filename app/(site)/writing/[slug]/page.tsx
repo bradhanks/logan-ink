@@ -127,7 +127,7 @@ async function EssayContent({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main>
+      <div>
         <article
           className="container"
           style={{ paddingTop: "4rem", paddingBottom: "6rem", maxWidth: "720px" }}
@@ -233,7 +233,7 @@ async function EssayContent({
             </nav>
           )}
         </article>
-      </main>
+      </div>
     </>
   )
 }
