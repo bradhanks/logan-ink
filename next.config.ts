@@ -55,8 +55,11 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     // Cache optimized images on the CDN for 31 days before re-optimizing.
     minimumCacheTTL: 60 * 60 * 24 * 31,
-    // Add remote CMS / storage origins here when media moves off /public.
-    remotePatterns: [],
+    // Remote media origins. Sanity's image CDN is the primary source; add feed
+    // avatar hosts (e.g. Bluesky) here if they're rendered via next/image.
+    remotePatterns: [
+      { protocol: "https", hostname: "cdn.sanity.io" },
+    ],
   },
 
   // --- Bundle size ---------------------------------------------------------

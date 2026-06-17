@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { baseMetadata } from "@/lib/metadata";
+import { baseMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/lib/site-config";
 import { WebVitals } from "./web-vitals";
 import "./globals.css";

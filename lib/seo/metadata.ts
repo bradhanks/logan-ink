@@ -8,6 +8,9 @@ import { siteConfig, absoluteUrl } from "@/lib/site-config";
  * (canonical base, OpenGraph, Twitter, robots). Individual pages call
  * `buildMetadata({ title, description, path })` to override only what differs —
  * they never re-declare the boilerplate.
+ *
+ * JSON-LD / structured data lives in `lib/seo/jsonld.ts` (owned by the content
+ * layer, per the implementation plan).
  */
 
 export const baseMetadata: Metadata = {
@@ -95,27 +98,5 @@ export function buildMetadata({
       ...(resolvedImage ? { images: resolvedImage } : {}),
     },
     ...(noIndex ? { robots: { index: false, follow: false } } : {}),
-  };
-}
-
-/**
- * Person + WebSite JSON-LD for the homepage. Render the return value inside a
- * <script type="application/ld+json"> tag. Helps search/rich results.
- */
-export function personJsonLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: siteConfig.name,
-    url: siteConfig.url,
-  };
-}
-
-export function webSiteJsonLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: siteConfig.name,
-    url: siteConfig.url,
   };
 }

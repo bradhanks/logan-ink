@@ -54,14 +54,26 @@ Profiles live in `CACHE` (`static`, `gallery`, `detail`, `feed`); tags in `cache
 ### Metadata & SEO
 
 - `lib/site-config.ts` is the **single source of truth** for name, domain, URL. Origin comes from `NEXT_PUBLIC_SITE_URL` (falls back to `https://logan.ink`).
-- Root defaults live in `lib/metadata.ts` (`baseMetadata`, wired into `app/layout.tsx`).
+- Root defaults live in `lib/seo/metadata.ts` (`baseMetadata`, wired into `app/layout.tsx`).
 - **Per-page metadata:** `export const metadata = buildMetadata({ title, description, path })`. Override only what differs.
-- `app/robots.ts`, `app/sitemap.ts`, `app/manifest.ts` are generated. When you add a top-level page, register it in `lib/routes.ts` so it lands in the sitemap.
-- JSON-LD helpers: `personJsonLd()`, `webSiteJsonLd()`.
+- `app/manifest.ts` is generated here. **`robots.ts`, `sitemap.ts`, and `lib/seo/jsonld.ts` are owned by the content layer** (Sanity-driven, implementation-plan Phase 5.2) — they are intentionally *not* in this foundation.
+
+### Security & proxy (`proxy.ts` — Next 16's middleware convention)
+
+Platform-level, runs in front of every route:
+- **CSP** — built in `lib/security/csp.ts`; strict `site` policy + relaxed `studio` policy. Note: `script-src` keeps `'unsafe-inline'` while GTM + the inline theme script exist; harden to hashes/nonce later (documented in the file).
+- **Rate limiting** — `lib/rate-limit.ts` throttles `/api/*` and `/mcp/*` (60/min per IP per endpoint; `/api/vitals` exempt). In-memory/per-instance today; back with Upstash/Vercel KV before launch for durable limits.
+- **Index hygiene** — `X-Robots-Tag: noindex` on non-production hosts (previews) and on `/studio`, `/api`, `/mcp`, `/draft`. Only `logan.ink` indexes.
+
+Static, non-varying security headers (HSTS, nosniff, etc.) live in `next.config.ts > headers()`.
 
 ### Images
 
-Use `next/image` always. Config (`next.config.ts > images`) serves AVIF/WebP and allows qualities `[50, 70, 85, 100]` — any other `quality` value is rejected. Add remote media origins to `images.remotePatterns`.
+Use `next/image` always. Config (`next.config.ts > images`) serves AVIF/WebP and allows qualities `[50, 70, 85, 100]` — any other `quality` value is rejected. `cdn.sanity.io` is already allowed; add other remote media origins (e.g. feed avatars) to `images.remotePatterns`.
+
+### Caching decision
+
+See `docs/decisions/0001-caching-cache-components.md` — Cache Components, not classic ISR.
 
 ### Structural routes (already scaffolded — restyle, don't recreate)
 
