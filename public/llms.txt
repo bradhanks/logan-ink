@@ -1,0 +1,24 @@
+# logan.ink — AI/LLM context file
+
+Logan Hanks is a cancer-prevention and population-science researcher. This site documents his grants portfolio, methods glossary, essays, and field notes.
+
+## Key resources
+
+- /grants — Curated hub of cancer-prevention grant opportunities with deadlines, mechanisms, and career-stage filters
+- /glossary — Methods glossary defining epidemiological and statistical terms used across the research
+- /writing — Essays and field notes on research practice, public health, and scientific method
+- /field — Live field feed: brief dispatches and observations from ongoing work
+- /research — Overview of active and past research projects
+- /cv — Full curriculum vitae
+
+## MCP endpoint (agent access)
+
+Agents can query grants, profile data, and publications via the public Model Context Protocol endpoint:
+
+  https://logan.ink/mcp/mcp
+
+This endpoint exposes structured tools for retrieving grant listings, Logan's profile, and publication metadata. Connect with any MCP-compatible client.
+
+## Canonical URL
+
+https://logan.ink
