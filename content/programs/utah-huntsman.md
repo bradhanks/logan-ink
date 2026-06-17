@@ -21,10 +21,11 @@ burden, especially in rural and Latino communities.
 - Recognized work: Kepka received an **HPV Vaccination Champion Award** for increasing HPV
   vaccination in Utah.
 
-⚠️ unverified: I confirmed the Kepka group / CCPS research environment and Huntsman's
-NCI designation, but did **not** verify the exact name/structure of a specific doctoral
-*degree program* a student would enter at Utah for this work. Logan should confirm the
-precise PhD pathway (e.g., which department awards the degree) on the program site.
+Degree pathway: the relevant doctoral program is the **Population Health Sciences (PHS) PhD**
+at the University of Utah School of Medicine — its Cancer Population Science division and
+Clinical and Translational Epidemiology emphasis connect students to Huntsman's CCPS faculty.
+Confirm the current PHS PhD requirements and emphasis options on the program site before
+applying.
 
 ## Why a student like Logan would want to train here
 Given the Kepka tie, Utah/Huntsman is a natural fit for a student focused on HPV-vaccination,
@@ -35,3 +36,4 @@ match rather than a generic prestige pick.
 - https://uofuhealth.utah.edu/huntsman/labs/kepka/research
 - https://healthcare.utah.edu/huntsmancancerinstitute/news/2025/04/deanna-kepka-phd-mph-earns-hpv-vaccination-award
 - https://medicine.utah.edu/faculty/deanna-kepka
+- https://medicine.utah.edu/population-health-sciences/divisions/cps
