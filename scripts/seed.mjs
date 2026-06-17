@@ -1,0 +1,278 @@
+/**
+ * Seed Sanity from the markdown content under content/.
+ *
+ * Idempotent: every document uses a stable _id derived from its slug, so
+ * re-running updates in place (createOrReplace). Bodies are converted from
+ * markdown to Portable Text. Runs all writes concurrently.
+ *
+ * Usage: node scripts/seed.mjs
+ * Requires .env.local with NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET,
+ * NEXT_PUBLIC_SANITY_API_VERSION, SANITY_WRITE_TOKEN.
+ */
+import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import matter from "gray-matter";
+import { createClient } from "next-sanity";
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+
+// ── env ────────────────────────────────────────────────────────────────────
+const env = {};
+for (const line of readFileSync(join(ROOT, ".env.local"), "utf8").split("\n")) {
+  const m = line.match(/^([A-Z0-9_]+)=(.*)$/);
+  if (m) env[m[1]] = m[2].trim();
+}
+const client = createClient({
+  projectId: env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: env.NEXT_PUBLIC_SANITY_DATASET || "production",
+  apiVersion: env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-10-01",
+  token: env.SANITY_WRITE_TOKEN,
+  useCdn: false,
+});
+
+// ── markdown → portable text ────────────────────────────────────────────────
+let keyN = 0;
+const key = () => `k${keyN++}`;
+
+/** Inline tokenizer → spans + markDefs (handles **bold**, *italic*, `code`, [t](u)). */
+function inline(text) {
+  const spans = [];
+  const markDefs = [];
+  const re = /(\*\*([^*]+)\*\*)|(\*([^*]+)\*)|(_([^_]+)_)|(`([^`]+)`)|(\[([^\]]+)\]\(([^)]+)\))/g;
+  let last = 0;
+  let m;
+  const push = (t, marks = []) => {
+    if (t) spans.push({ _type: "span", _key: key(), text: t, marks });
+  };
+  while ((m = re.exec(text))) {
+    push(text.slice(last, m.index));
+    if (m[1]) push(m[2], ["strong"]);
+    else if (m[3]) push(m[4], ["em"]);
+    else if (m[5]) push(m[6], ["em"]);
+    else if (m[7]) push(m[8], ["code"]);
+    else if (m[9]) {
+      const dk = key();
+      markDefs.push({ _type: "link", _key: dk, href: m[11] });
+      push(m[10], [dk]);
+    }
+    last = re.lastIndex;
+  }
+  push(text.slice(last));
+  if (spans.length === 0) push(text);
+  return { spans, markDefs };
+}
+
+function block(style, text, listItem) {
+  const { spans, markDefs } = inline(text);
+  const b = { _type: "block", _key: key(), style, markDefs, children: spans };
+  if (listItem) {
+    b.listItem = listItem;
+    b.level = 1;
+  }
+  return b;
+}
+
+/** Convert a markdown string to a Portable Text block array. */
+function toPT(md) {
+  if (!md || !md.trim()) return [];
+  const out = [];
+  const lines = md.replace(/\r/g, "").split("\n");
+  let para = [];
+  const flush = () => {
+    if (para.length) {
+      out.push(block("normal", para.join(" ").trim()));
+      para = [];
+    }
+  };
+  for (const raw of lines) {
+    const line = raw.trimEnd();
+    if (!line.trim()) {
+      flush();
+      continue;
+    }
+    let mm;
+    if ((mm = line.match(/^(#{1,4})\s+(.*)$/))) {
+      flush();
+      const lvl = Math.min(mm[1].length + 1, 4); // # → h2 .. #### → h4 (cap)
+      out.push(block(`h${lvl === 1 ? 2 : lvl}`, mm[2]));
+    } else if ((mm = line.match(/^\s*[-*]\s+(.*)$/))) {
+      flush();
+      out.push(block("normal", mm[1], "bullet"));
+    } else if ((mm = line.match(/^\s*\d+\.\s+(.*)$/))) {
+      flush();
+      out.push(block("normal", mm[1], "number"));
+    } else if ((mm = line.match(/^>\s?(.*)$/))) {
+      flush();
+      out.push(block("blockquote", mm[1]));
+    } else {
+      para.push(line.trim());
+    }
+  }
+  flush();
+  return out;
+}
+
+// ── readers ─────────────────────────────────────────────────────────────────
+function readDir(rel) {
+  const dir = join(ROOT, rel);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((f) => f.endsWith(".md") && f.toLowerCase() !== "index.md")
+    .map((f) => {
+      const slug = f.replace(/\.md$/, "");
+      const { data, content } = matter(readFileSync(join(dir, f), "utf8"));
+      return { slug, fm: data, body: content };
+    });
+}
+const slug = (s) => ({ _type: "slug", current: s });
+const num = (v) => {
+  if (typeof v === "number") return v;
+  if (typeof v === "string") {
+    const m = v.replace(/[, ]/g, "").match(/\d+(\.\d+)?/);
+    if (m) return Number(m[0]);
+  }
+  return undefined;
+};
+const isoDate = (v) =>
+  typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : undefined;
+const arr = (v) => (Array.isArray(v) ? v : v ? [String(v)] : undefined);
+
+// ── build documents ─────────────────────────────────────────────────────────
+const docs = [];
+
+for (const { slug: s, fm, body } of readDir("content/essays")) {
+  docs.push({
+    _id: `essay.${s}`,
+    _type: "essay",
+    title: fm.title || s,
+    slug: slug(fm.slug || s),
+    kind: fm.kind === "newsletter" ? "newsletter" : "essay",
+    publishedAt: fm.publishedAt || undefined,
+    excerpt: fm.excerpt || fm.tldr || undefined,
+    tags: arr(fm.tags),
+    collaborateCta: !!fm.collaborateCta,
+    body: toPT(body),
+  });
+}
+
+for (const { slug: s, fm, body } of readDir("content/glossary")) {
+  docs.push({
+    _id: `glossary.${s}`,
+    _type: "glossaryTerm",
+    term: fm.term || s,
+    slug: slug(fm.slug || s),
+    shortDef: fm.shortDef || undefined,
+    related: arr(fm.related)?.map((r) => ({
+      _type: "reference",
+      _key: key(),
+      _ref: `glossary.${r}`,
+      // weak: terms reference each other and are created concurrently, so the
+      // target may not exist yet — weak refs don't require referential integrity.
+      _weak: true,
+    })),
+    tags: arr(fm.tags),
+    body: toPT(body),
+  });
+}
+
+for (const { slug: s, fm, body } of readDir("content/reading")) {
+  docs.push({
+    _id: `reading.${s}`,
+    _type: "readingItem",
+    title: fm.title || s,
+    authors: fm.authors || undefined,
+    url: fm.url || undefined,
+    note: fm.note || (body ? body.trim().slice(0, 600) : undefined),
+    tags: arr(fm.tags),
+  });
+}
+
+for (const { slug: s, fm, body } of readDir("content/grants")) {
+  const faq = Array.isArray(fm.faq)
+    ? fm.faq
+        .filter((x) => x && x.q)
+        .map((x) => ({ _type: "faq", _key: key(), q: x.q, a: toPT(x.a || "") }))
+    : undefined;
+  docs.push({
+    _id: `grant.${s}`,
+    _type: "grant",
+    org: fm.org || undefined,
+    mechanism: fm.mechanism || fm.title || s,
+    slug: slug(fm.slug || s),
+    careerStage: arr(fm.careerStage),
+    topics: arr(fm.topics),
+    amount: num(fm.amount),
+    deadline: isoDate(fm.deadline),
+    deadlineConfirmed: !!fm.deadlineConfirmed,
+    cycleYear: num(fm.cycleYear),
+    sourceUrl:
+      typeof fm.sourceUrl === "string" && fm.sourceUrl.startsWith("http")
+        ? fm.sourceUrl
+        : undefined,
+    tldr: fm.tldr || undefined,
+    body: toPT(body),
+    faq,
+  });
+}
+
+for (const { slug: s, fm, body } of readDir("content/research")) {
+  docs.push({
+    _id: `research.${s}`,
+    _type: "researchProject",
+    title: fm.title || s,
+    slug: slug(fm.slug || s),
+    summary: fm.summary || undefined,
+    role: fm.role || undefined,
+    methods: arr(fm.methods),
+    featured: !!fm.featured,
+    body: toPT(body),
+  });
+}
+
+// siteSettings singleton (only fields that exist in the schema)
+const aboutPath = join(ROOT, "content/site/now.md");
+let nowStatus;
+if (existsSync(aboutPath)) {
+  nowStatus = matter(readFileSync(aboutPath, "utf8")).content.trim().split("\n")[0];
+}
+docs.push({
+  _id: "siteSettings",
+  _type: "siteSettings",
+  name: "Logan Hanks",
+  tagline:
+    "Cancer-prevention & population-science research, grant intelligence, and the road to graduate school.",
+  nowStatus: nowStatus || undefined,
+});
+
+// strip undefined keys (Sanity rejects explicit undefined in some clients)
+const clean = (o) => {
+  if (Array.isArray(o)) return o.map(clean);
+  if (o && typeof o === "object") {
+    const r = {};
+    for (const [k, v] of Object.entries(o)) {
+      if (v === undefined) continue;
+      r[k] = clean(v);
+    }
+    return r;
+  }
+  return o;
+};
+
+// ── write ─────────────────────────────────────────────────────────────────
+const counts = {};
+const results = await Promise.allSettled(
+  docs.map((d) =>
+    client.createOrReplace(clean(d)).then(() => {
+      counts[d._type] = (counts[d._type] || 0) + 1;
+    }),
+  ),
+);
+const failures = results.filter((r) => r.status === "rejected");
+console.log("Seeded:", JSON.stringify(counts));
+if (failures.length) {
+  console.log(`FAILURES: ${failures.length}`);
+  for (const f of failures.slice(0, 5)) console.log("  -", f.reason?.message || f.reason);
+  process.exit(1);
+}
+console.log(`OK — ${docs.length} documents upserted.`);
