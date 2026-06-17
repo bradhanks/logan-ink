@@ -1,0 +1,27 @@
+{
+  "header": { "type": "esummary", "version": "0.3" },
+  "result": {
+    "uids": ["39000001", "39000002"],
+    "39000001": {
+      "uid": "39000001",
+      "title": "HPV vaccination uptake among rural adolescents: a population-science analysis",
+      "sortpubdate": "2025/03/15 00:00",
+      "pubdate": "2025 Mar 15",
+      "authors": [
+        { "name": "Kepka D", "authtype": "Author" },
+        { "name": "Smith JR", "authtype": "Author" }
+      ],
+      "elocationid": "doi: 10.1000/example.39000001"
+    },
+    "39000002": {
+      "uid": "39000002",
+      "title": "Cancer prevention messaging in underserved communities",
+      "sortpubdate": "2024/11/02 00:00",
+      "pubdate": "2024 Nov 2",
+      "authors": [
+        { "name": "Kepka D", "authtype": "Author" },
+        { "name": "Doe A", "authtype": "Author" }
+      ]
+    }
+  }
+}
