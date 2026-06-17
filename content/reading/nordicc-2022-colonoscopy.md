@@ -1,7 +1,6 @@
 # Effect of Colonoscopy Screening on Risks of Colorectal Cancer and Related Death (the NordICC Trial)
 
-**Authors:** Bretthauer et al. / the NordICC Study Group ⚠️ verify citation (lead-author
-attribution not directly confirmed in my searches; confirm against the NEJM article)
+**Authors:** Michael Bretthauer et al. / the NordICC Study Group
 **Year:** 2022
 **Where:** *New England Journal of Medicine*, 387, 1547–1556. DOI: 10.1056/NEJMoa2208375
 
@@ -18,6 +17,6 @@ intention-to-treat vs. per-protocol, the role of participation/adherence, and wh
 "observational studies suggested 60–70% mortality reduction" can differ from a randomized
 result. Exactly the kind of nuance cancer-screening policy turns on.
 
-## Source (citation verified — see caveat on author attribution)
+## Source (citation verified)
 - https://www.nejm.org/doi/10.1056/NEJMoa2208375
 - https://ascopost.com/issues/november-25-2022/effect-of-invitation-to-colonoscopy-screening-on-risk-of-colorectal-cancer-and-risk-of-mortality-the-nordicc-trial/

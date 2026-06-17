@@ -25,6 +25,7 @@ to absorb now, not a claim of mastery.
 10. [Smedley, Stith & Nelson (eds.), IOM — *Unequal Treatment* (2003)](./iom-2003-unequal-treatment.md)
 
 ## Note on citations
-Years, journals, and (where given) DOIs were confirmed via WebSearch. Two minor caveats are
-flagged in their entries: the Link & Phelan volume number (35 vs 36) and the NordICC author
-attribution.
+Years, journals, and (where given) DOIs were confirmed via WebSearch. Two previously
+uncertain details are now resolved: the Link & Phelan citation is *Journal of Health and
+Social Behavior* vol. 36 (Extra Issue), and the NordICC trial's lead author is Michael
+Bretthauer.

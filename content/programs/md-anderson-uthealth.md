@@ -18,9 +18,11 @@ cancer-prevention research, often in collaboration with MD Anderson.
   prevention** and an **NCI fellowship** training pathway.
 - Direct access to MD Anderson's clinical and research scale.
 
-⚠️ unverified: I did not confirm a single dedicated "cancer epidemiology PhD track" name at
-UTHealth SPH via WebSearch; the cancer-prevention work sits within the broader epidemiology
-department. Confirm the exact degree track on the program site before applying.
+Note: UTHealth SPH offers a research-intensive **PhD in Epidemiology** (Department of
+Epidemiology); there is no separately named "cancer epidemiology" track — cancer-prevention
+work sits within the broader epidemiology department, complemented by pre-/post-doctoral
+cancer-prevention fellowships. Confirm the current degree requirements on the program site
+before applying.
 
 ## Why a student like Logan would want to train here
 For a student drawn to translational cancer prevention at the largest cancer center in the
