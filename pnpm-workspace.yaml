@@ -1,5 +1,6 @@
 allowBuilds:
   '@anthropic-ai/claude-code': true
+  esbuild: set this to true or false
   sharp: true
   unrs-resolver: true
 ignoredBuiltDependencies:
