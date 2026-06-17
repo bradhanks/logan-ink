@@ -150,7 +150,7 @@ describe("applyMove – extra turn", () => {
     board[11] = 2; // 2 stones: drops into 12 and 13
     const s2 = { ...s, board, turn: "p2" as const };
     const s3 = applyMove(s2, 11);
-    expect(s3.board[13]).toBeGreaterThan(0);
+    expect(s3.board[13]).toBe(1); // exactly one stone reaches the store
     expect(s3.turn).toBe("p2");
   });
 });
@@ -260,15 +260,11 @@ describe("applyMove – game-over detection and sweep", () => {
     const board = [3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 1, 0];
     const s = { board, turn: "p2" as const, over: false };
     const s2 = applyMove(s, 12); // p2 pit 12 has 1 stone → lands in p2 store (13)
-    if (s2.over) {
-      expect(s2.board[0]).toBe(0);
-      expect(s2.board[1]).toBe(0);
-      expect(s2.board[2]).toBe(0);
-      expect(s2.board[3]).toBe(0);
-      expect(s2.board[4]).toBe(0);
-      expect(s2.board[5]).toBe(0);
-      expect(s2.board[6]).toBe(18); // 3*6 = 18
-    }
+    // Game must be over: p2's pits are now all empty.
+    expect(s2.over).toBe(true);
+    // p1's remaining stones sweep into p1's store (index 6); p1 pits emptied.
+    expect(s2.board.slice(0, 6)).toEqual([0, 0, 0, 0, 0, 0]);
+    expect(s2.board[6]).toBe(18); // 3*6 = 18
   });
 });
 
