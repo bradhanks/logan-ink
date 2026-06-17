@@ -66,6 +66,11 @@ export type CacheProfile = keyof typeof CACHE;
 export const cacheTags = {
   gallery: "gallery",
   feed: "feed",
+  /**
+   * Generic content tag for documents that don't map to a specific page or
+   * gallery but still need cache busting (e.g. siteSettings, glossaryTerms).
+   */
+  content: "content",
   /** Tag for a single piece of work, e.g. cacheTags.work("octopus-back"). */
   work: (slug: string) => `work:${slug}`,
   /** Tag for a single content page, e.g. cacheTags.page("about"). */
@@ -102,6 +107,9 @@ export const invalidate = {
   gallery: (opts?: InvalidateOptions) =>
     bust(cacheTags.gallery, CACHE.gallery, opts),
   feed: (opts?: InvalidateOptions) => bust(cacheTags.feed, CACHE.feed, opts),
+  /** Bust the generic content tag (siteSettings, glossaryTerms, etc.). */
+  content: (opts?: InvalidateOptions) =>
+    bust(cacheTags.content, CACHE.static, opts),
   work: (slug: string, opts?: InvalidateOptions) =>
     bust(cacheTags.work(slug), CACHE.detail, opts),
   page: (slug: string, opts?: InvalidateOptions) =>
