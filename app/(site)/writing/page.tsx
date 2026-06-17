@@ -1,28 +1,41 @@
 import type { Metadata } from "next"
+import { cacheLife, cacheTag } from "next/cache"
+import { CACHE, cacheTags } from "@/lib/cache"
+import { sanityFetch } from "@/lib/sanity/client"
+import { ALL_ESSAYS_QUERY } from "@/lib/sanity/queries"
 import { buildMetadata } from "@/lib/seo/metadata"
+import { EssayCard } from "@/components/writing/EssayCard"
 
 export const metadata: Metadata = buildMetadata({
   title: "Writing",
-  description: "Essays, articles, and writing by Logan Hanks.",
+  description: "Essays and newsletter from Logan Hanks",
   path: "/writing",
 })
 
-export default function WritingPage() {
+type EssayListItem = {
+  _id: string
+  title: string
+  slug: { current: string }
+  kind: "essay" | "newsletter"
+  publishedAt: string | null
+  excerpt: string | null
+  tags: string[] | null
+}
+
+export default async function WritingPage() {
+  "use cache"
+  cacheLife(CACHE.feed)
+  cacheTag(cacheTags.feed)
+
+  const essays = await sanityFetch<EssayListItem[]>(ALL_ESSAYS_QUERY)
+
   return (
-    <div
-      style={{
-        minHeight: "60vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "4rem 1.5rem",
-      }}
-    >
-      <div>
-        <p className="eyebrow" style={{ marginBottom: "1rem" }}>Coming soon</p>
+    <main className="container" style={{ paddingTop: "4rem", paddingBottom: "6rem" }}>
+      <header style={{ marginBottom: "3rem" }}>
+        <p className="eyebrow" style={{ marginBottom: "0.75rem" }}>Logan Hanks</p>
         <h1
           style={{
-            fontFamily: "var(--font-fraunces), Georgia, serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 700,
             fontSize: "clamp(2rem, 5vw, 3rem)",
             letterSpacing: "-0.03em",
@@ -32,17 +45,27 @@ export default function WritingPage() {
         >
           Writing
         </h1>
-        <p
-          style={{
-            marginTop: "0.75rem",
-            fontSize: "1rem",
-            color: "var(--text-2)",
-            fontFamily: "var(--font-sans)",
-          }}
-        >
-          This page is being built.
+        <p style={{ marginTop: "0.75rem", color: "var(--text-2)", fontFamily: "var(--font-sans)", maxWidth: "52ch" }}>
+          Essays and newsletter on research, science communication, and grad-school life.
         </p>
-      </div>
-    </div>
+      </header>
+
+      {essays.length === 0 ? (
+        <div
+          className="glass"
+          style={{ padding: "3rem 2rem", textAlign: "center", color: "var(--text-3)", fontFamily: "var(--font-sans)" }}
+        >
+          <p>No posts yet — check back soon.</p>
+        </div>
+      ) : (
+        <ol style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+          {essays.map((essay) => (
+            <li key={essay._id}>
+              <EssayCard essay={essay} />
+            </li>
+          ))}
+        </ol>
+      )}
+    </main>
   )
 }
