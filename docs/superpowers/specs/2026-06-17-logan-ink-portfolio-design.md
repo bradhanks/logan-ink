@@ -175,10 +175,12 @@ citable assets** that pull organic traffic and raise Logan's profile. Strategy:
   surface — agents can query Logan's grant/profile data directly. Freshness signals (Field Feed,
   timeline, newsletter, RSS) keep the corpus updating, which both search and answer engines reward.
 
-**Analytics:** Google Tag Manager via `@next/third-parties/google` `<GoogleTagManager>` with a
-`NEXT_PUBLIC_GTM_ID` env var (placeholder until Brad provides the container ID). Default to **Google
+**Analytics:** Google Tag Manager container **`GTM-TXP27537`** (confirmed by Brad), wired via
+`@next/third-parties/google` `<GoogleTagManager gtmId="GTM-TXP27537" />`, which injects **both** the
+`<head>` loader and the post-`<body>` `<noscript>` iframe on every route automatically — no manual
+snippet pasting. ID stored in `NEXT_PUBLIC_GTM_ID` (defaulting to `GTM-TXP27537`). Default to **Google
 Consent Mode v2 (denied)** with a minimal, dismissible consent banner — no PII collected; keeps EU
-visitors compliant and the site reputable. GTM only loads after the ID is set.
+visitors compliant and the site reputable.
 
 **MCP endpoint:** `mcp-handler` mounted at its **own** path — `app/mcp/[transport]/route.ts` with
 `basePath: "/mcp"` → public URL `/mcp/<transport>` (e.g. `/mcp/mcp`). It is deliberately **not** placed
@@ -286,7 +288,39 @@ Sanity wiring → researched content authored → SEO/OG/sitemap/RSS/iCal → ex
 
 ---
 
-## 11. Out of scope (YAGNI)
+## 11. Risks, guardrails & compatibility (review pass 2)
+
+- **Stack bleeding-edge compat (top risk).** Next 16 + React 19 + embedded Sanity Studio (`sanity`,
+  `next-sanity`, `@sanity/visual-editing`) is very new. **Verify peer-dep compatibility before building
+  the CMS layer.** Fallback if Studio won't embed cleanly under React 19/Next 16: run Studio as a
+  standalone deploy (or a route group with its own React tree) and keep the front end on Next 16.
+  This check happens in the foundation phase, before content modeling.
+- **Drop stray dependency.** `@anthropic-ai/claude-code` is in `package.json` deps — it's the CLI, not a
+  site dependency; remove it (large, unnecessary in the bundle/install).
+- **Domain readiness.** Confirm `logan.ink` is registered/owned before DNS work; if not, that's a
+  blocker to surface immediately.
+- **Image strategy & rights.** Only `public/logan.png` exists; the design references many photos that
+  don't. Use `next/image`, graceful placeholders for missing assets, and **never use unlicensed
+  headshots of real people** (the heroes list — Doherty, Ulrich, Gawande, etc.). Prefer link-outs,
+  initials, or illustration over scraped photos; credit anything licensed.
+- **Structured-data integrity (anti-spam).** Emit `ScholarlyArticle`/`Article` JSON-LD **only for real,
+  verifiable items** — never for placeholder/aspirational pubs (fake structured data risks a Google
+  manual action and undercuts the credibility goal).
+- **Index hygiene.** `/studio`, `/api/*`, `/mcp/*`, draft-mode routes, and **all preview/branch
+  deployments** (incl. the v2 pubs preview) must be `noindex` / robots-excluded so Google never indexes
+  the CMS or unfinished content. Only production canonical URLs are indexable.
+- **Contact form.** Needs anti-spam (honeypot + Vercel BotID) and a real delivery path (Resend) — not a
+  dead form.
+- **PubMed/RePORTER etiquette.** Include `tool` + `email` params on E-utilities calls, respect rate
+  limits, and attribute sources; stay within terms of use.
+- **Newsletter rendering.** Email HTML is generated **from** the Sanity `newsletter` Portable Text (one
+  source of truth) via a portable-text→email-HTML transform, so blog and email never drift.
+- **Font weight budget.** Three families (Fraunces variable, Newsreader, Outfit) — subset aggressively,
+  limit shipped weights/axes, `display: swap`, to protect Core Web Vitals (which feeds SEO).
+
+---
+
+## 12. Out of scope (YAGNI)
 
 Auth/user accounts; comments; multi-author; e-commerce; X/Twitter scraping; a custom CMS; non-Sanity
-headless backends; native mobile.
+headless backends; native mobile; i18n/localization.
