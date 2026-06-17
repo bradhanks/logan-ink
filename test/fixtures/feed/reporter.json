@@ -1,0 +1,27 @@
+{
+  "meta": { "total": 2, "limit": 20, "offset": 0 },
+  "results": [
+    {
+      "project_num": "5R01CA123456-05",
+      "project_title": "Scaling HPV vaccination in the Mountain West",
+      "award_notice_date": "2025-02-01T00:00:00",
+      "project_start_date": "2024-09-01T00:00:00",
+      "abstract_text": "This project evaluates population-level interventions to increase HPV vaccination.",
+      "principal_investigators": [
+        { "full_name": "KEPKA, DEANNA" }
+      ],
+      "contact_pi_name": "KEPKA, DEANNA"
+    },
+    {
+      "project_num": "1R21CA999999-01",
+      "project_title": "Unrelated project led by someone else",
+      "award_notice_date": "2024-06-15T00:00:00",
+      "project_start_date": "2024-04-01T00:00:00",
+      "abstract_text": "A project with no tracked PI.",
+      "principal_investigators": [
+        { "full_name": "GARCIA, MARIA" }
+      ],
+      "contact_pi_name": "GARCIA, MARIA"
+    }
+  ]
+}

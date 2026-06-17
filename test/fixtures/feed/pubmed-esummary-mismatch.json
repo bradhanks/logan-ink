@@ -1,0 +1,25 @@
+{
+  "header": { "type": "esummary", "version": "0.3" },
+  "result": {
+    "uids": ["48000001", "48000002"],
+    "48000001": {
+      "uid": "48000001",
+      "title": "A paper by a different Kepka in an unrelated field",
+      "sortpubdate": "2023/01/10 00:00",
+      "pubdate": "2023 Jan 10",
+      "authors": [
+        { "name": "Nowak P", "authtype": "Author" },
+        { "name": "Lewandowski K", "authtype": "Author" }
+      ]
+    },
+    "48000002": {
+      "uid": "48000002",
+      "title": "Genuine Kepka cancer-prevention study",
+      "sortpubdate": "2023/05/20 00:00",
+      "pubdate": "2023 May 20",
+      "authors": [
+        { "name": "Kepka D", "authtype": "Author" }
+      ]
+    }
+  }
+}

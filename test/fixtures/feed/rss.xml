@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Huntsman Cancer Institute News</title>
+    <link>https://healthcare.utah.edu/huntsmancancerinstitute/news</link>
+    <description>Latest news</description>
+    <item>
+      <title>New study links community outreach to higher HPV vaccination</title>
+      <link>https://healthcare.utah.edu/huntsmancancerinstitute/news/2025/03/hpv-study</link>
+      <description><![CDATA[Researchers report a measurable increase in vaccination rates.]]></description>
+      <pubDate>Sat, 15 Mar 2025 09:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Population science seminar series announced</title>
+      <link>https://healthcare.utah.edu/huntsmancancerinstitute/news/2025/02/seminar</link>
+      <description>Monthly seminars on cancer prevention &amp; control.</description>
+      <pubDate>Tue, 04 Feb 2025 14:30:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
