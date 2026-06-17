@@ -1,19 +1,17 @@
 import { notFound } from "next/navigation"
+import { connection } from "next/server"
 import type { Metadata } from "next"
 import type { PortableTextBlock } from "@portabletext/react"
 import { buildMetadata } from "@/lib/seo/metadata"
+import { absoluteUrl } from "@/lib/site-config"
 import { sanityFetch } from "@/lib/sanity/client"
-import { ALL_GRANTS_QUERY, GRANT_BY_SLUG_QUERY } from "@/lib/sanity/queries"
+import { GRANT_BY_SLUG_QUERY } from "@/lib/sanity/queries"
 import { cacheLife, cacheTag, CACHE, cacheTags } from "@/lib/cache"
 import { PortableBody } from "@/components/sections/RichText"
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
-
-interface GrantSlugItem {
-  slug: { current: string }
-}
 
 interface FaqItem {
   _key?: string
@@ -53,13 +51,6 @@ const STAGE_LABELS: Record<string, string> = {
 // Cached data functions
 // ---------------------------------------------------------------------------
 
-async function getGrantSlugs(): Promise<GrantSlugItem[]> {
-  "use cache"
-  cacheLife(CACHE.gallery)
-  cacheTag(cacheTags.content)
-  return sanityFetch<GrantSlugItem[]>(ALL_GRANTS_QUERY)
-}
-
 async function getGrantBySlug(slug: string): Promise<Grant | null> {
   "use cache"
   cacheLife(CACHE.detail)
@@ -67,17 +58,10 @@ async function getGrantBySlug(slug: string): Promise<Grant | null> {
   return sanityFetch<Grant | null>(GRANT_BY_SLUG_QUERY, { slug })
 }
 
-// ---------------------------------------------------------------------------
-// generateStaticParams
-// ---------------------------------------------------------------------------
-
-export async function generateStaticParams() {
-  const grants = await getGrantSlugs()
-  if (!grants || grants.length === 0) return []
-  return grants
-    .filter((g) => g.slug?.current)
-    .map((g) => ({ slug: g.slug.current }))
-}
+// Note: no `generateStaticParams` — under Cache Components it may not return an
+// empty array, and pre-seed there are zero grants. The route renders
+// dynamically on demand (via `connection()` in the page); the underlying data
+// reads are still cached with `"use cache"`, so pages stay fast and crawlable.
 
 // ---------------------------------------------------------------------------
 // generateMetadata
@@ -132,7 +116,7 @@ function buildWebPageJsonLd(grant: Grant, path: string) {
     "@type": "WebPage",
     name: `${grant.mechanism} — ${grant.org}`,
     description: grant.tldr ?? undefined,
-    url: `https://logan.ink${path}`,
+    url: absoluteUrl(path),
     ...(grant.sourceUrl
       ? { citation: { "@type": "WebPage", url: grant.sourceUrl } }
       : {}),
@@ -148,6 +132,7 @@ export default async function GrantDetailPage({
 }: {
   params: Promise<{ slug: string }>
 }) {
+  await connection()
   const { slug } = await params
   const grant = await getGrantBySlug(slug)
 
@@ -161,7 +146,7 @@ export default async function GrantDetailPage({
   const hasDeadlineInfo = grant.deadline || grant.cycleYear
 
   return (
-    <main style={{ minHeight: "60vh" }}>
+    <article style={{ minHeight: "60vh" }}>
       {/* JSON-LD */}
       {faqJsonLd ? (
         <script
@@ -467,7 +452,7 @@ export default async function GrantDetailPage({
           </div>
         </section>
       ) : null}
-    </main>
+    </article>
   )
 }
 
