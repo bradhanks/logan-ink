@@ -86,10 +86,10 @@ async function getPublications(): Promise<Publication[]> {
 
 const EDUCATION = [
   {
-    degree: "Ph.D. (in progress)",
-    field: "Psychology",
-    institution: "University — details coming soon",
-    years: "present",
+    degree: "B.S. (in progress)",
+    field: "Population & public health sciences",
+    institution: "Utah State University",
+    years: "2024 – 2028 (expected)",
   },
 ]
 
@@ -323,7 +323,7 @@ export default async function CvPage() {
           </SectionHeading>
           {projects.length === 0 ? (
             <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.875rem", color: "var(--text-3)" }}>
-              Research projects coming soon.
+              Research is in progress — projects appear here as they take shape.
             </p>
           ) : (
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1.25rem" }}>
@@ -383,7 +383,8 @@ export default async function CvPage() {
           </SectionHeading>
           {publications.length === 0 ? (
             <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.875rem", color: "var(--text-3)" }}>
-              Publications coming soon.
+              No peer-reviewed publications yet — working toward a first author
+              credit before graduate applications.
             </p>
           ) : (
             <ol style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1.125rem" }}>

@@ -271,13 +271,32 @@ docs.push({
         "Class of 2028 · Toward a top cancer-prevention PhD",
       ],
     },
-    { _type: "mindsetSection", _key: "home-mindset" },
+    {
+      _type: "mindsetSection",
+      _key: "home-mindset",
+      heading: "Both hemispheres at full ramp",
+      body: toPT(
+        "The work I want to do needs two things at once: the analytic discipline to model a problem honestly, and the writing to make the answer land with the people who can act on it.\n\nI try to keep both running — rigorous regression and a clear sentence, a careful study design and a human story. The most useful research I've seen refuses to treat that as a trade-off.",
+      ),
+    },
     { _type: "researchGrid", _key: "home-research" },
     { _type: "grantDirectory", _key: "home-grants" },
-    { _type: "missionStatement", _key: "home-mission" },
+    {
+      _type: "missionStatement",
+      _key: "home-mission",
+      statement:
+        "I want to close the distance between what we already know how to prevent and the people still living without that protection. So much harm in public health isn't from what we haven't discovered — it's from what we've discovered and failed to deliver evenly: a cancer-preventing vaccine that never reaches a rural county; a clear message never written in the language someone actually thinks in. My part is small and specific right now — learn the methods well, study communities honestly, and treat the people closest to a problem as collaborators, not data points. Rigor and warmth aren't a trade-off. Prevention done right is invisible; the cancer that never happens leaves no headline — and I'm okay working on things no one will ever have to thank me for.",
+    },
     { _type: "heroesList", _key: "home-heroes" },
     { _type: "fieldFeedTeaser", _key: "home-feed" },
-    { _type: "cta", _key: "home-cta" },
+    {
+      _type: "cta",
+      _key: "home-cta",
+      heading: "Have a paper that needs a stronger analysis?",
+      body: "I help researchers tighten the technical side — study design, regression, sensitivity analyses — to give good work its best shot at acceptance. If that's useful to you, I'd love to hear from you.",
+      label: "Get in touch",
+      href: "/contact",
+    },
   ],
 });
 
