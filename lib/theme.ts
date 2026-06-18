@@ -18,10 +18,13 @@ export type Theme = "light" | "dark"
  */
 export function resolveTheme(
   stored: Theme | null,
-  systemPrefersDark: boolean,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _systemPrefersDark: boolean,
 ): Theme {
+  // Dark-first design: a stored choice wins; otherwise default to dark
+  // regardless of the OS preference. The toggle still switches to light.
   if (stored === "light" || stored === "dark") return stored
-  return systemPrefersDark ? "dark" : "light"
+  return "dark"
 }
 
 /**
@@ -35,10 +38,8 @@ export function getInitialThemeScript(): string {
   return `(function(){
   try {
     var stored = localStorage.getItem("theme");
-    var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    var theme = (stored === "light" || stored === "dark")
-      ? stored
-      : (prefersDark ? "dark" : "light");
+    // Dark-first: stored choice wins, otherwise default to dark.
+    var theme = (stored === "light" || stored === "dark") ? stored : "dark";
     document.documentElement.dataset.theme = theme;
     // Mark JS as active so scroll-reveal can hide-then-animate. Without JS this
     // class is never added, so .reveal content stays visible (progressive

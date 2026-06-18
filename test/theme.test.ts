@@ -6,11 +6,12 @@ describe("resolveTheme", () => {
     expect(resolveTheme("light", true)).toBe("light")
   })
 
-  it("returns 'dark' when nothing is stored and system prefers dark", () => {
-    expect(resolveTheme(null, true)).toBe("dark")
+  it("returns stored value when stored is 'dark'", () => {
+    expect(resolveTheme("dark", false)).toBe("dark")
   })
 
-  it("returns 'light' when nothing is stored and system prefers light", () => {
-    expect(resolveTheme(null, false)).toBe("light")
+  it("defaults to 'dark' when nothing is stored, regardless of system preference", () => {
+    expect(resolveTheme(null, true)).toBe("dark")
+    expect(resolveTheme(null, false)).toBe("dark")
   })
 })

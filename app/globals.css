@@ -26,15 +26,15 @@
   --trans-cyan:  #55CDFC;
   --trans-pink:  #F7A8B8;
 
-  /* Light surface/text tokens (default) */
-  --bg:        #F8F5F0;
-  --surface:   #EDEBE6;
-  --surface-2: #E4E0D8;
-  --border:    rgba(12, 18, 32, 0.1);
-  --border-2:  rgba(12, 18, 32, 0.2);
-  --text:      #0C1220;
-  --text-2:    #4A5568;
-  --text-3:    #8A9099;
+  /* Dark surface/text tokens (DEFAULT — dark-first design) */
+  --bg:        #070C1A;
+  --surface:   rgba(255, 255, 255, 0.042);
+  --surface-2: rgba(255, 255, 255, 0.072);
+  --border:    rgba(255, 255, 255, 0.078);
+  --border-2:  rgba(255, 255, 255, 0.15);
+  --text:      #F2EDE8;
+  --text-2:    #9B9088;
+  --text-3:    #5A5450;
 
   /* Typography — references CSS vars set by next/font in lib/fonts.ts */
   --font-display: var(--font-fraunces), "Georgia", serif;
@@ -91,14 +91,11 @@
 }
 
 /* ── WORDMARK α ACCENT — theme-aware for contrast ──────────────────
-   On the light background the bright #6DB6D8 washes out, so the α uses the
-   darker blue (#1A7AAA); on dark it stays bright. */
+   Default (dark) uses the bright blue; the explicit light theme uses the
+   darker blue so it doesn't wash out on the light background. */
 :root,
-:root[data-theme="light"] { --logo-alpha: #1A7AAA; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --logo-alpha: #6DB6D8; }
-}
 :root[data-theme="dark"] { --logo-alpha: #6DB6D8; }
+:root[data-theme="light"] { --logo-alpha: #1A7AAA; }
 
 /* ── TAILWIND THEME INTEGRATION ────────────────────────────────── */
 @theme inline {
