@@ -51,7 +51,7 @@ export function Wordmark({
   variant    = "sig",
   size,
   color,
-  alphaColor = "#6DB6D8",
+  alphaColor = "var(--logo-alpha, #1A7AAA)",
   className,
   style,
 }: WordmarkProps) {

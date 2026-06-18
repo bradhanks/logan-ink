@@ -32,11 +32,17 @@ const dataset =
 const apiVersion =
   process.env.NEXT_PUBLIC_SANITY_API_VERSION ?? "2024-10-01";
 
+// This project's dataset requires authentication (RBAC), so published reads use
+// a read-only token. `SANITY_VIEWER_TOKEN` is server-only (NOT NEXT_PUBLIC), so
+// it is never bundled to the client — these reads happen in Server Components /
+// "use cache" functions. Without it, a public/unauthenticated read returns no
+// documents and every page renders its empty state.
 export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion,
   useCdn: false,
+  token: process.env.SANITY_VIEWER_TOKEN,
 });
 
 /**
