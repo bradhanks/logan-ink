@@ -8,7 +8,7 @@ import { buildMetadata } from "@/lib/seo/metadata"
 export const metadata: Metadata = buildMetadata({
   title: "Methods Glossary",
   description:
-    "A plain-language reference for qualitative and quantitative research methods used in psychology and social science.",
+    "A plain-language reference for the epidemiology and population-science methods behind cancer-prevention research.",
   path: "/glossary",
 })
 
@@ -73,10 +73,10 @@ export default async function GlossaryIndexPage() {
             maxWidth: "58ch",
           }}
         >
-          A plain-language reference for research methods used in psychology
-          and social science. Each entry gives you a direct answer you can act
-          on — plus deeper context when you need it. New terms added as the
-          work demands.
+          A plain-language reference for the epidemiology and population-science
+          methods behind cancer-prevention research. Each entry gives you a
+          direct answer you can act on — plus deeper context when you need it.
+          New terms added as the work demands.
         </p>
       </header>
 

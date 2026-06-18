@@ -12,7 +12,7 @@ import { VCardButton, type VCardFields } from "./VCardButton"
 
 export const metadata: Metadata = buildMetadata({
   title: "CV",
-  description: "Curriculum vitae for Logan Hanks — researcher in psychology and social science.",
+  description: "Curriculum vitae for Logan Hanks — cancer-prevention and population-science research.",
   path: "/cv",
 })
 
