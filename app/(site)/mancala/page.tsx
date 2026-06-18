@@ -1,5 +1,6 @@
 import { buildMetadata } from "@/lib/seo/metadata";
 import { Board } from "@/components/mancala/Board";
+import { PresenceCount } from "@/components/presence/PresenceCount";
 
 export const metadata = buildMetadata({
   title: "Mancala",
@@ -74,6 +75,10 @@ export default function MancalaPage() {
               task brief. Marked with a caveat pending fact-check. */}
           Allegedly a 5th-grade classroom champion (2018 — to be confirmed).
         </p>
+
+        <div style={{ marginTop: "1.25rem", display: "flex", justifyContent: "center" }}>
+          <PresenceCount page="/mancala" label="here now" />
+        </div>
       </header>
 
       {/* Game board — client island */}
