@@ -45,12 +45,13 @@ export interface CacheConfig {
 }
 
 export const CACHE = {
-  /** Marketing / evergreen copy that rarely changes. */
-  static: { stale: DAY, revalidate: 7 * DAY, expire: 30 * DAY },
+  /** CMS-driven content. Revalidate ~hourly so Studio edits appear promptly
+   *  even without the optional revalidation webhook. */
+  static: { stale: 10 * MINUTE, revalidate: HOUR, expire: DAY },
   /** Gallery / portfolio listings — change when work is added. */
-  gallery: { stale: HOUR, revalidate: 6 * HOUR, expire: DAY },
+  gallery: { stale: 10 * MINUTE, revalidate: HOUR, expire: DAY },
   /** Individual artwork / post detail. */
-  detail: { stale: HOUR, revalidate: 12 * HOUR, expire: 7 * DAY },
+  detail: { stale: 30 * MINUTE, revalidate: 2 * HOUR, expire: DAY },
   /** Feeds that should feel near-live but tolerate brief staleness. */
   feed: { stale: MINUTE, revalidate: 5 * MINUTE, expire: HOUR },
 } as const;

@@ -18,6 +18,7 @@ const MISC_LINKS = [
   { href: "/reading",   label: "Reading" },
   { href: "/glossary",  label: "Glossary" },
   { href: "/mancala",   label: "Mancala" },
+  { href: "/feed.ics",  label: "Grant deadlines (iCal)" },
   { href: "/rss.xml",   label: "RSS" },
 ] as const
 
