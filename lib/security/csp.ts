@@ -60,9 +60,13 @@ export function contentSecurityPolicy(variant: CspVariant): string {
     });
   }
 
+  // React's dev server needs eval() for fast-refresh / better stack traces.
+  // Production React never uses eval, so unsafe-eval is dev-only here.
+  const devEval = process.env.NODE_ENV === "development" ? ["'unsafe-eval'"] : [];
+
   return serialize({
     ...common,
-    "script-src": ["'self'", "'unsafe-inline'", GTM, ...GA.split(" ")],
+    "script-src": ["'self'", "'unsafe-inline'", ...devEval, GTM, ...GA.split(" ")],
     // Sanity endpoints included so client-side live/visual editing works on
     // preview routes without a separate policy.
     "connect-src": ["'self'", GTM, ...GA.split(" "), ...SANITY_API.split(" ")],

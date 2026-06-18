@@ -248,8 +248,9 @@ docs.push({
   _type: "siteSettings",
   name: "Logan Hanks",
   tagline:
-    "Cancer-prevention & population-science research, grant intelligence, and the road to graduate school.",
+    "Cancer-prevention and population-science research, grant intelligence, and the road to graduate school.",
   nowStatus: nowStatus || undefined,
+  contactEmail: env.CONTACT_EMAIL || undefined,
 });
 
 // timeline entries (parsed from content/site/timeline.md list)
