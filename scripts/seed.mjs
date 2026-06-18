@@ -253,6 +253,34 @@ docs.push({
   contactEmail: env.CONTACT_EMAIL || undefined,
 });
 
+// Home page document — drives the page-builder home (so Logan can reorder /
+// edit sections in Studio). Mirrors the app's DEFAULT_SECTIONS fallback order.
+docs.push({
+  _id: "page.home",
+  _type: "page",
+  title: "Home",
+  slug: slug("home"),
+  sections: [
+    { _type: "heroSection", _key: "home-hero" },
+    {
+      _type: "credentialStrip",
+      _key: "home-credentials",
+      items: [
+        "Fall 2024 · Utah State University · Population science begins",
+        "2025 · Learning in the orbit of the Kepka group · Huntsman Cancer Institute",
+        "Class of 2028 · Toward a top cancer-prevention PhD",
+      ],
+    },
+    { _type: "mindsetSection", _key: "home-mindset" },
+    { _type: "researchGrid", _key: "home-research" },
+    { _type: "grantDirectory", _key: "home-grants" },
+    { _type: "missionStatement", _key: "home-mission" },
+    { _type: "heroesList", _key: "home-heroes" },
+    { _type: "fieldFeedTeaser", _key: "home-feed" },
+    { _type: "cta", _key: "home-cta" },
+  ],
+});
+
 // timeline entries (parsed from content/site/timeline.md list)
 const tlPath = join(ROOT, "content/site/timeline.md");
 if (existsSync(tlPath)) {
