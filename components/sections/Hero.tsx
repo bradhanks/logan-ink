@@ -57,8 +57,8 @@ export function Hero({ section }: { section: HeroSection }) {
             <TransFlag width={96} height={5} className="mt-6 mx-auto md:mx-0" shimmer />
           </div>
 
-          {/* PHOTO — phone: between flag and subheadline (order-2). tablet:
-              after the text (sm:order-3). desktop: right column, centered. */}
+          {/* PHOTO — phone (<md): between flag and subheadline (order-2).
+              md+: right column, vertically centered (tablet + desktop share this). */}
           <div className="order-2 flex justify-center md:order-none md:col-start-2 md:row-start-1 md:row-span-2 md:justify-end md:self-center">
             <div
               className="relative aspect-square w-56 sm:w-64 md:w-72"
