@@ -22,8 +22,9 @@ export function Store({ count, player, label }: StoreProps) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        width: "clamp(3.5rem, 9vw, 5.5rem)",
-        height: "clamp(8rem, 22vw, 12rem)",
+        width: "clamp(2.4rem, 9vw, 5.5rem)",
+        height: "clamp(6rem, 20vw, 12rem)",
+        flexShrink: 0,
         borderRadius: "clamp(1.5rem, 4vw, 2.5rem)",
         border: `2px solid ${isHuman ? "var(--blue)" : "var(--rose)"}`,
         background: isHuman

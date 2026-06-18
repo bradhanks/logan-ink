@@ -242,7 +242,11 @@ export function Board() {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          gap: "clamp(0.5rem, 1.5vw, 1rem)",
+          gap: "clamp(0.3rem, 1.5vw, 1rem)",
+          maxWidth: "100%",
+          // Safety net: if the board is still wider than a very narrow phone,
+          // scroll it horizontally rather than overflowing the page.
+          overflowX: "auto",
         }}
       >
         {/* p2 store — left */}

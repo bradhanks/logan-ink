@@ -40,8 +40,9 @@ export function Pit({ index, count, isLegal, isActive, onClick, label }: PitProp
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        width: "clamp(3rem, 8vw, 4.5rem)",
-        height: "clamp(3rem, 8vw, 4.5rem)",
+        width: "clamp(1.9rem, 9vw, 4.5rem)",
+        height: "clamp(1.9rem, 9vw, 4.5rem)",
+        flexShrink: 0,
         borderRadius: "50%",
         border: canPlay
           ? "2px solid var(--gold)"
