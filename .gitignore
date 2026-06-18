@@ -48,3 +48,6 @@ next-env.d.ts
 
 # stray local tool dir
 /.claire
+
+# private strategy brief — never commit/ship
+/STRATEGY-target-professors.md
