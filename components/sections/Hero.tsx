@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { TransFlag } from "@/components/brand/TransFlag"
 import { PortableBody } from "./RichText"
 import type { HeroSection } from "./types"
@@ -104,24 +105,20 @@ export function Hero({ section }: { section: HeroSection }) {
               }}
             >
               <div
-                className="flex h-full w-full items-center justify-center overflow-hidden"
+                className="relative h-full w-full overflow-hidden"
                 style={{
                   borderRadius: "calc(var(--r) - 3px)",
                   background: "var(--surface-2)",
                 }}
               >
-                <span
-                  aria-hidden
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontStyle: "italic",
-                    fontWeight: 900,
-                    fontSize: "3rem",
-                    color: "var(--text-3)",
-                  }}
-                >
-                  LH
-                </span>
+                <Image
+                  src="/logan.png"
+                  alt="Logan Hanks"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 16rem, 18rem"
+                  style={{ objectFit: "cover", objectPosition: "50% 22%" }}
+                />
               </div>
             </div>
           </div>

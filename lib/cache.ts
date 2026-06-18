@@ -63,18 +63,21 @@ export type CacheProfile = keyof typeof CACHE;
 // Keep tag strings centralized so a mutation and the cached read agree on the
 // exact key. Use the parameterized helpers for per-entity tags.
 
+// NOTE: the `v2` suffix is a one-time cache-key bump. The first production
+// build ran before the Sanity read token was wired, so the data cache held
+// empty results; bumping the tag version forces a fresh fetch on the next build.
 export const cacheTags = {
-  gallery: "gallery",
-  feed: "feed",
+  gallery: "gallery-v2",
+  feed: "feed-v2",
   /**
    * Generic content tag for documents that don't map to a specific page or
    * gallery but still need cache busting (e.g. siteSettings, glossaryTerms).
    */
-  content: "content",
+  content: "content-v2",
   /** Tag for a single piece of work, e.g. cacheTags.work("octopus-back"). */
-  work: (slug: string) => `work:${slug}`,
+  work: (slug: string) => `work-v2:${slug}`,
   /** Tag for a single content page, e.g. cacheTags.page("about"). */
-  page: (slug: string) => `page:${slug}`,
+  page: (slug: string) => `page-v2:${slug}`,
 } as const;
 
 // ---------------------------------------------------------------------------

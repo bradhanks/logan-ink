@@ -13,7 +13,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "Logan Hanks — Cancer-prevention & population-science research";
+export const alt = "Logan Hanks — Cancer-prevention and population-science research";
 
 export const size = { width: 1200, height: 630 };
 
@@ -163,7 +163,7 @@ export default async function Image() {
             maxWidth: 680,
           }}
         >
-          Cancer-prevention &amp; population-science research
+          Cancer-prevention and population-science research
         </div>
       </div>
     ),
