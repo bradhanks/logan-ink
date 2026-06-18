@@ -36,9 +36,9 @@ export function Hero({ section }: { section: HeroSection }) {
       />
 
       <div className="container relative">
-        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-x-12 lg:gap-y-2">
+        <div className="flex flex-col gap-8 md:grid md:grid-cols-[1.4fr_1fr] md:items-center md:gap-x-12 md:gap-y-2">
           {/* TOP — eyebrow, name, trans flag */}
-          <div className="order-1 text-center lg:col-start-1 lg:row-start-1 lg:self-end lg:text-left">
+          <div className="order-1 text-center md:col-start-1 md:row-start-1 md:self-end md:text-left">
             <p className="eyebrow mb-4">
               Population Scientist · Kepka Group · HCI · He/Him
             </p>
@@ -54,14 +54,14 @@ export function Hero({ section }: { section: HeroSection }) {
             >
               {headline}
             </h1>
-            <TransFlag width={96} height={5} className="mt-6 mx-auto lg:mx-0" shimmer />
+            <TransFlag width={96} height={5} className="mt-6 mx-auto md:mx-0" shimmer />
           </div>
 
           {/* PHOTO — phone: between flag and subheadline (order-2). tablet:
               after the text (sm:order-3). desktop: right column, centered. */}
-          <div className="order-2 flex justify-center sm:order-3 lg:order-none lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:justify-end lg:self-center">
+          <div className="order-2 flex justify-center md:order-none md:col-start-2 md:row-start-1 md:row-span-2 md:justify-end md:self-center">
             <div
-              className="relative aspect-square w-56 sm:w-64 lg:w-72"
+              className="relative aspect-square w-56 sm:w-64 md:w-72"
               style={{
                 borderRadius: "var(--r)",
                 padding: 3,
@@ -89,9 +89,9 @@ export function Hero({ section }: { section: HeroSection }) {
           </div>
 
           {/* BOTTOM — subheadline, body, CTAs */}
-          <div className="order-3 text-center sm:order-2 lg:col-start-1 lg:row-start-2 lg:self-start lg:text-left">
+          <div className="order-3 text-center md:col-start-1 md:row-start-2 md:self-start md:text-left">
             <p
-              className="max-w-xl text-xl sm:text-2xl mx-auto lg:mx-0"
+              className="max-w-xl text-xl sm:text-2xl mx-auto md:mx-0"
               style={{
                 fontFamily: "var(--font-serif)",
                 color: "var(--text-2)",
@@ -102,12 +102,12 @@ export function Hero({ section }: { section: HeroSection }) {
             </p>
 
             {section.body && section.body.length > 0 ? (
-              <div className="mt-5 max-w-xl text-base mx-auto lg:mx-0">
+              <div className="mt-5 max-w-xl text-base mx-auto md:mx-0">
                 <PortableBody value={section.body} />
               </div>
             ) : null}
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start">
               {cta?.href ? (
                 <Link href={cta.href} className="btn-primary">
                   {cta.label || "Get in touch"}
