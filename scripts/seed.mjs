@@ -245,6 +245,59 @@ docs.push({
   nowStatus: nowStatus || undefined,
 });
 
+// timeline entries (parsed from content/site/timeline.md list)
+const tlPath = join(ROOT, "content/site/timeline.md");
+if (existsSync(tlPath)) {
+  const { content } = matter(readFileSync(tlPath, "utf8"));
+  let i = 0;
+  for (const line of content.split("\n")) {
+    const m = line.match(/^-\s+\*\*(.+?)\*\*\s*(.*)$/);
+    if (!m) continue;
+    const label = m[1].replace(/\.$/, "").trim();
+    const yr = (label.match(/(20\d{2})/) || [])[1] || "2025";
+    const mo = /early|spring/i.test(label)
+      ? "03"
+      : /mid|summer/i.test(label)
+        ? "06"
+        : /late|fall|autumn/i.test(label)
+          ? "10"
+          : /ahead|looking/i.test(label)
+            ? "12"
+            : "01";
+    docs.push({
+      _id: `timeline.${yr}-${mo}-${i++}`,
+      _type: "timelineEntry",
+      date: `${yr}-${mo}-01`,
+      title: label,
+      body: toPT(m[2].trim()),
+    });
+  }
+}
+
+// hero people (parsed from content/site/heroes.md sections)
+const heroPath = join(ROOT, "content/site/heroes.md");
+if (existsSync(heroPath)) {
+  const { content } = matter(readFileSync(heroPath, "utf8"));
+  let met = false;
+  for (const line of content.split("\n")) {
+    const h = line.match(/^##\s+(.*)$/);
+    if (h) {
+      met = /met/i.test(h[1]);
+      continue;
+    }
+    const m = line.match(/^-\s+\*\*(.+?)\*\*\s*[—–-]?\s*(.*)$/);
+    if (!m) continue;
+    const name = m[1].trim();
+    docs.push({
+      _id: `hero.${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`,
+      _type: "heroPerson",
+      name,
+      met,
+      note: m[2].trim() || undefined,
+    });
+  }
+}
+
 // strip undefined keys (Sanity rejects explicit undefined in some clients)
 const clean = (o) => {
   if (Array.isArray(o)) return o.map(clean);
