@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 import { Wordmark } from "@/components/brand/Wordmark"
 import { siteConfig } from "@/lib/site-config"
+import NewsletterSignup from "@/components/newsletter/NewsletterSignup"
 
 const SECONDARY_LINKS = [
   { href: "/writing",   label: "Writing" },
@@ -89,6 +90,16 @@ export function Footer() {
               ))}
             </div>
           </nav>
+
+          {/* Newsletter — The logᵅN Letter */}
+          <div className="footer-newsletter">
+            <p className="footer-nav-heading">The logᵅN Letter</p>
+            <p className="footer-newsletter-blurb">
+              Occasional notes on cancer-prevention methods, grants, and the road
+              to grad school.
+            </p>
+            <NewsletterSignup />
+          </div>
         </div>
 
         {/* Bottom bar */}
