@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   initialState,
   legalMoves,
@@ -33,92 +33,53 @@ function getTurnLabel(state: GameState, isAiThinking: boolean): string {
 export function Board() {
   const [game, setGame] = useState<GameState>(initialState);
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
-  // "pending" means we've started the timer but haven't applied the move yet
-  const [aiPhase, setAiPhase] = useState<"idle" | "pending">("idle");
   const [announcement, setAnnouncement] = useState("");
   const [animatingPit, setAnimatingPit] = useState<number | null>(null);
-
-  const aiTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Track board before AI move so we can describe captures
-  const prevBoardRef = useRef<number[]>(game.board);
 
   const announce = useCallback((msg: string) => {
     setAnnouncement("");
     setTimeout(() => setAnnouncement(msg), 50);
   }, []);
 
-  // Cancel pending AI timer
-  const cancelAi = useCallback(() => {
-    if (aiTimerRef.current) {
-      clearTimeout(aiTimerRef.current);
-      aiTimerRef.current = null;
-    }
-    setAiPhase("idle");
-  }, []);
-
-  // Effect: whenever it's p2's turn and no timer is already running, schedule one.
+  // AI move: whenever it becomes p2's turn, the AI plays after a short delay.
+  // Keyed on [game, difficulty] ONLY. The engine keeps `turn` on an extra turn,
+  // so this effect naturally re-fires and the AI chains its moves. The cleanup
+  // clears the timer if the game changes (new game / the AI's own move) before
+  // it fires — a fired timer is harmless to clear.
   useEffect(() => {
-    if (game.over || game.turn !== "p2" || aiPhase === "pending") return;
+    if (game.over || game.turn !== "p2") return;
 
-    const capturedDiff = difficulty; // closure snapshot
-    const capturedState = game;
+    const timer = setTimeout(() => {
+      const pit = chooseMove(game, difficulty);
+      const next = applyMove(game, pit);
 
-    setAiPhase("pending");
-    prevBoardRef.current = capturedState.board;
-
-    aiTimerRef.current = setTimeout(() => {
-      const pit = chooseMove(capturedState, capturedDiff);
-      const next = applyMove(capturedState, pit);
-
-      const p2PitIdx = pit - 7; // 0-based from AI perspective
+      const p2PitIdx = pit - 7; // 0-based from the AI's perspective
       let msg = `AI played pit ${p2PitIdx + 1}.`;
-
-      if (!next.over && next.turn === "p2") {
-        msg += " AI gets a free turn.";
-      }
-      const p2StoreDelta = next.board[13] - capturedState.board[13];
-      if (p2StoreDelta >= 2) {
-        msg += ` AI captured ${p2StoreDelta} stones.`;
-      }
+      if (!next.over && next.turn === "p2") msg += " AI gets a free turn.";
+      const p2StoreDelta = next.board[13] - game.board[13];
+      if (p2StoreDelta >= 2) msg += ` AI captured ${p2StoreDelta} stones.`;
       if (next.over) {
         const w = winner(next);
-        if (w === "p1") msg += " Game over — you win!";
-        else if (w === "p2") msg += " Game over — AI wins.";
-        else msg += " Game over — it's a draw.";
+        msg +=
+          w === "p1"
+            ? " Game over — you win!"
+            : w === "p2"
+              ? " Game over — AI wins."
+              : " Game over — it's a draw.";
       }
 
       announce(msg);
-      // Clear pending BEFORE setting game so the next effect run
-      // sees "idle" and can schedule the next AI move if it's still p2's turn.
-      setAiPhase("idle");
       setGame(next);
-      aiTimerRef.current = null;
     }, AI_DELAY_MS);
 
-    return () => {
-      // Cleanup runs when deps change (new game, etc.) — cancel any in-flight timer.
-      if (aiTimerRef.current) {
-        clearTimeout(aiTimerRef.current);
-        aiTimerRef.current = null;
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [game, difficulty, aiPhase]);
-
-  // Unmount cleanup
-  useEffect(() => {
-    return () => {
-      if (aiTimerRef.current) clearTimeout(aiTimerRef.current);
-    };
-  }, []);
+    return () => clearTimeout(timer);
+  }, [game, difficulty, announce]);
 
   function handlePitClick(pit: number) {
-    const isAiThinking = aiPhase === "pending";
-    if (game.over || game.turn !== "p1" || isAiThinking) return;
+    if (game.over || game.turn !== "p1") return;
     const legal = legalMoves(game);
     if (!legal.includes(pit)) return;
 
-    cancelAi();
     setAnimatingPit(pit);
     setTimeout(() => setAnimatingPit(null), 300);
 
@@ -126,44 +87,37 @@ export function Board() {
     const pitLabel = pit + 1;
 
     let msg = `You played pit ${pitLabel}.`;
-    if (!next.over && next.turn === "p1") {
-      msg += " You get a free turn!";
-    }
+    if (!next.over && next.turn === "p1") msg += " You get a free turn!";
     const p1StoreDelta = next.board[6] - game.board[6];
-    if (p1StoreDelta >= 2) {
-      msg += ` You captured ${p1StoreDelta} stones.`;
-    }
+    if (p1StoreDelta >= 2) msg += ` You captured ${p1StoreDelta} stones.`;
     if (next.over) {
       const w = winner(next);
-      if (w === "p1") msg += " Game over — you win!";
-      else if (w === "p2") msg += " Game over — AI wins.";
-      else msg += " Game over — it's a draw.";
+      msg +=
+        w === "p1"
+          ? " Game over — you win!"
+          : w === "p2"
+            ? " Game over — AI wins."
+            : " Game over — it's a draw.";
     }
 
-    prevBoardRef.current = next.board;
     announce(msg);
     setGame(next);
   }
 
   function handleNewGame() {
-    cancelAi();
     setAnimatingPit(null);
-    const fresh = initialState();
-    prevBoardRef.current = fresh.board;
-    setGame(fresh);
+    setGame(initialState());
     announce("New game started. Your turn.");
   }
 
   function handleDifficultyChange(d: Difficulty) {
     setDifficulty(d);
-    if (game.over) {
-      handleNewGame();
-    }
+    if (game.over) handleNewGame();
   }
 
   const legal = legalMoves(game);
-  const isAiThinking = aiPhase === "pending";
-  const isHumanTurn = game.turn === "p1" && !game.over && !isAiThinking;
+  const isAiThinking = game.turn === "p2" && !game.over;
+  const isHumanTurn = game.turn === "p1" && !game.over;
   const gameWinner = game.over ? winner(game) : null;
   const turnLabel = getTurnLabel(game, isAiThinking);
 

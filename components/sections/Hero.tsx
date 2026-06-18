@@ -36,17 +36,17 @@ export function Hero({ section }: { section: HeroSection }) {
       />
 
       <div className="container relative">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.4fr_1fr]">
-          <div>
+        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-x-12 lg:gap-y-2">
+          {/* TOP — eyebrow, name, trans flag */}
+          <div className="order-1 lg:col-start-1 lg:row-start-1 lg:self-end">
             <p className="eyebrow mb-4">
               Population Scientist · Kepka Group · HCI · He/Him
             </p>
-
             <h1
               className="leading-[0.95]"
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(3rem, 9vw, 7rem)",
+                fontSize: "clamp(2.75rem, 9vw, 7rem)",
                 fontWeight: 900,
                 letterSpacing: "-0.04em",
                 color: "var(--text)",
@@ -54,11 +54,44 @@ export function Hero({ section }: { section: HeroSection }) {
             >
               {headline}
             </h1>
-
             <TransFlag width={96} height={5} className="mt-6" shimmer />
+          </div>
 
+          {/* PHOTO — phone: between flag and subheadline (order-2). tablet:
+              after the text (sm:order-3). desktop: right column, centered. */}
+          <div className="order-2 flex justify-center sm:order-3 lg:order-none lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:justify-end lg:self-center">
+            <div
+              className="relative aspect-square w-56 sm:w-64 lg:w-72"
+              style={{
+                borderRadius: "var(--r)",
+                padding: 3,
+                background:
+                  "linear-gradient(145deg, var(--blue-glow), rgba(212,142,168,0.3), rgba(74,173,160,0.25))",
+              }}
+            >
+              <div
+                className="relative h-full w-full overflow-hidden"
+                style={{
+                  borderRadius: "calc(var(--r) - 3px)",
+                  background: "var(--surface-2)",
+                }}
+              >
+                <Image
+                  src="/logan.png"
+                  alt="Logan Hanks"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 16rem, 18rem"
+                  style={{ objectFit: "cover", objectPosition: "50% 22%" }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* BOTTOM — subheadline, body, CTAs */}
+          <div className="order-3 sm:order-2 lg:col-start-1 lg:row-start-2 lg:self-start">
             <p
-              className="mt-6 max-w-xl text-xl sm:text-2xl"
+              className="max-w-xl text-xl sm:text-2xl"
               style={{
                 fontFamily: "var(--font-serif)",
                 color: "var(--text-2)",
@@ -90,36 +123,6 @@ export function Hero({ section }: { section: HeroSection }) {
               <Link href="/about" className="btn-ghost">
                 Say hi →
               </Link>
-            </div>
-          </div>
-
-          {/* Calm portrait inside a restrained gradient ring */}
-          <div className="flex justify-center lg:justify-end">
-            <div
-              className="relative aspect-square w-56 sm:w-64 lg:w-72"
-              style={{
-                borderRadius: "var(--r)",
-                padding: 3,
-                background:
-                  "linear-gradient(145deg, var(--blue-glow), rgba(212,142,168,0.3), rgba(74,173,160,0.25))",
-              }}
-            >
-              <div
-                className="relative h-full w-full overflow-hidden"
-                style={{
-                  borderRadius: "calc(var(--r) - 3px)",
-                  background: "var(--surface-2)",
-                }}
-              >
-                <Image
-                  src="/logan.png"
-                  alt="Logan Hanks"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 16rem, 18rem"
-                  style={{ objectFit: "cover", objectPosition: "50% 22%" }}
-                />
-              </div>
             </div>
           </div>
         </div>
