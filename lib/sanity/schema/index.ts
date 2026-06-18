@@ -15,6 +15,7 @@ import { grant } from "./grant";
 import { heroPerson } from "./heroPerson";
 import { readingItem } from "./readingItem";
 import { glossaryTerm } from "./glossaryTerm";
+import { program } from "./program";
 import { trackedResearcher } from "./trackedResearcher";
 
 // Section object types (page-builder blocks)
@@ -44,6 +45,7 @@ export const schemaTypes = [
   heroPerson,
   readingItem,
   glossaryTerm,
+  program,
   trackedResearcher,
 
   // Page-builder section objects

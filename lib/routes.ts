@@ -40,6 +40,7 @@ export const routes: RouteConfig[] = [
   { path: "/timeline", changeFrequency: "monthly", priority: 0.7 },
   { path: "/writing", changeFrequency: "weekly", priority: 0.9 },
   { path: "/research", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/programs", changeFrequency: "monthly", priority: 0.7 },
   { path: "/grants", changeFrequency: "weekly", priority: 0.9 },
   { path: "/reading", changeFrequency: "weekly", priority: 0.7 },
   { path: "/glossary", changeFrequency: "monthly", priority: 0.7 },

@@ -7,6 +7,7 @@ import NewsletterSignup from "@/components/newsletter/NewsletterSignup"
 const SECONDARY_LINKS = [
   { href: "/writing",   label: "Writing" },
   { href: "/research",  label: "Research" },
+  { href: "/programs",  label: "Programs" },
   { href: "/grants",    label: "Grants" },
   { href: "/timeline",  label: "Timeline" },
   { href: "/field",     label: "Field" },
@@ -17,7 +18,7 @@ const MISC_LINKS = [
   { href: "/reading",   label: "Reading" },
   { href: "/glossary",  label: "Glossary" },
   { href: "/mancala",   label: "Mancala" },
-  { href: "/feed.xml",  label: "RSS" },
+  { href: "/rss.xml",   label: "RSS" },
 ] as const
 
 // Placeholder social links — swap out once siteConfig carries these

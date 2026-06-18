@@ -298,6 +298,39 @@ if (existsSync(heroPath)) {
   }
 }
 
+// target programs (structured markdown: # H1, **Program:**, **Department:**, ## sections)
+const progDir = join(ROOT, "content/programs");
+if (existsSync(progDir)) {
+  const files = readdirSync(progDir).filter(
+    (f) => f.endsWith(".md") && f.toLowerCase() !== "index.md",
+  );
+  files.forEach((f, idx) => {
+    const s = f.replace(/\.md$/, "");
+    const raw = readFileSync(join(progDir, f), "utf8");
+    const lines = raw.replace(/\r/g, "").split("\n");
+    let name = s;
+    let programName, department;
+    const bodyLines = [];
+    for (const line of lines) {
+      let m;
+      if ((m = line.match(/^#\s+(.*)$/)) && name === s) name = m[1].trim();
+      else if ((m = line.match(/^\*\*Program:\*\*\s*(.*)$/))) programName = m[1].trim();
+      else if ((m = line.match(/^\*\*Department:\*\*\s*(.*)$/))) department = m[1].trim();
+      else bodyLines.push(line);
+    }
+    docs.push({
+      _id: `program.${s}`,
+      _type: "program",
+      name,
+      slug: slug(s),
+      program: programName,
+      department,
+      order: idx,
+      body: toPT(bodyLines.join("\n")),
+    });
+  });
+}
+
 // strip undefined keys (Sanity rejects explicit undefined in some clients)
 const clean = (o) => {
   if (Array.isArray(o)) return o.map(clean);

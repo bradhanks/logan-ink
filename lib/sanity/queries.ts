@@ -238,6 +238,24 @@ export const GLOSSARY_TERM_BY_SLUG_QUERY = `
 `;
 
 // ---------------------------------------------------------------------------
+// Target programs
+// ---------------------------------------------------------------------------
+
+/** All target graduate programs, in sort order. */
+export const ALL_PROGRAMS_QUERY = `
+  *[_type == "program"] | order(order asc, name asc) {
+    _id,
+    _type,
+    name,
+    slug,
+    program,
+    department,
+    sourceUrl,
+    body
+  }
+`;
+
+// ---------------------------------------------------------------------------
 // Tracked researchers
 // ---------------------------------------------------------------------------
 
