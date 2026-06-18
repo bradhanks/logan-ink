@@ -67,6 +67,7 @@ function badgeStyle(source: string): CSSProperties {
 /** Format an ISO date string to a human-readable date without constructing
  *  a Date object at render time. Accepts YYYY-MM-DD or full ISO timestamps. */
 function formatDate(iso: string): string {
+  if (typeof iso !== "string" || !iso) return ""
   // Slice the YYYY-MM-DD portion and reformat to e.g. "Jun 17, 2026"
   const datePart = iso.slice(0, 10) // "YYYY-MM-DD"
   const [year, monthStr, day] = datePart.split("-")

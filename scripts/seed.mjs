@@ -136,6 +136,13 @@ const num = (v) => {
 };
 const isoDate = (v) =>
   typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : undefined;
+// YAML parses bare `2026-05-20` into a Date — coerce any date-ish value to a
+// "YYYY-MM-DD" string so Sanity stores a string, not an object.
+const dateStr = (v) => {
+  if (v instanceof Date && !isNaN(v)) return v.toISOString().slice(0, 10);
+  if (typeof v === "string" && v.length >= 10) return v.slice(0, 10);
+  return undefined;
+};
 const arr = (v) => (Array.isArray(v) ? v : v ? [String(v)] : undefined);
 
 // ── build documents ─────────────────────────────────────────────────────────
@@ -148,7 +155,7 @@ for (const { slug: s, fm, body } of readDir("content/essays")) {
     title: fm.title || s,
     slug: slug(fm.slug || s),
     kind: fm.kind === "newsletter" ? "newsletter" : "essay",
-    publishedAt: fm.publishedAt || undefined,
+    publishedAt: dateStr(fm.publishedAt),
     excerpt: fm.excerpt || fm.tldr || undefined,
     tags: arr(fm.tags),
     collaborateCta: !!fm.collaborateCta,
@@ -203,7 +210,7 @@ for (const { slug: s, fm, body } of readDir("content/grants")) {
     careerStage: arr(fm.careerStage),
     topics: arr(fm.topics),
     amount: num(fm.amount),
-    deadline: isoDate(fm.deadline),
+    deadline: dateStr(fm.deadline) ?? isoDate(fm.deadline),
     deadlineConfirmed: !!fm.deadlineConfirmed,
     cycleYear: num(fm.cycleYear),
     sourceUrl:

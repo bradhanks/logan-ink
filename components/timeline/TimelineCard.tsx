@@ -45,7 +45,8 @@ export function TimelineCard({ entry, isFirst }: Props) {
 
   // Format date as "Month YYYY" without new Date() in static render path.
   // We receive an ISO date string "YYYY-MM-DD" from Sanity.
-  const [year, month] = entry.date.split("-")
+  const [year, month] =
+    typeof entry.date === "string" ? entry.date.split("-") : ["", ""]
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",

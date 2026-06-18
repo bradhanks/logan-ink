@@ -26,7 +26,7 @@ type EssayDetail = EssayListItem & {
 }
 
 function formatDate(iso: string | null): string {
-  if (!iso) return ""
+  if (typeof iso !== "string" || !iso) return ""
   // iso is YYYY-MM-DD from Sanity date field
   const [year, month, day] = iso.split("-")
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]

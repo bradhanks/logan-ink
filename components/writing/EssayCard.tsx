@@ -11,7 +11,7 @@ type EssayListItem = {
 }
 
 function formatDate(iso: string | null): string {
-  if (!iso) return ""
+  if (typeof iso !== "string" || !iso) return ""
   const [year, month, day] = iso.split("-")
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
   const m = parseInt(month, 10) - 1
