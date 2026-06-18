@@ -13,8 +13,11 @@ import { Redis } from "@upstash/redis"
  * integration is installed), everything degrades to a no-op returning 0 and
  * `enabled: false`, and the UI simply hides itself.
  */
-const url = process.env.UPSTASH_REDIS_REST_URL
-const token = process.env.UPSTASH_REDIS_REST_TOKEN
+// The Upstash Vercel integration wires UPSTASH_REDIS_REST_*; some Marketplace
+// flows wire KV_REST_API_* instead. Accept either so the install just works.
+const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL
+const token =
+  process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN
 
 export const presenceEnabled = Boolean(url && token)
 
