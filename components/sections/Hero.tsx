@@ -38,7 +38,7 @@ export function Hero({ section }: { section: HeroSection }) {
       <div className="container relative">
         <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-x-12 lg:gap-y-2">
           {/* TOP — eyebrow, name, trans flag */}
-          <div className="order-1 lg:col-start-1 lg:row-start-1 lg:self-end">
+          <div className="order-1 text-center lg:col-start-1 lg:row-start-1 lg:self-end lg:text-left">
             <p className="eyebrow mb-4">
               Population Scientist · Kepka Group · HCI · He/Him
             </p>
@@ -54,7 +54,7 @@ export function Hero({ section }: { section: HeroSection }) {
             >
               {headline}
             </h1>
-            <TransFlag width={96} height={5} className="mt-6" shimmer />
+            <TransFlag width={96} height={5} className="mt-6 mx-auto lg:mx-0" shimmer />
           </div>
 
           {/* PHOTO — phone: between flag and subheadline (order-2). tablet:
@@ -89,9 +89,9 @@ export function Hero({ section }: { section: HeroSection }) {
           </div>
 
           {/* BOTTOM — subheadline, body, CTAs */}
-          <div className="order-3 sm:order-2 lg:col-start-1 lg:row-start-2 lg:self-start">
+          <div className="order-3 text-center sm:order-2 lg:col-start-1 lg:row-start-2 lg:self-start lg:text-left">
             <p
-              className="max-w-xl text-xl sm:text-2xl"
+              className="max-w-xl text-xl sm:text-2xl mx-auto lg:mx-0"
               style={{
                 fontFamily: "var(--font-serif)",
                 color: "var(--text-2)",
@@ -102,12 +102,12 @@ export function Hero({ section }: { section: HeroSection }) {
             </p>
 
             {section.body && section.body.length > 0 ? (
-              <div className="mt-5 max-w-xl text-base">
+              <div className="mt-5 max-w-xl text-base mx-auto lg:mx-0">
                 <PortableBody value={section.body} />
               </div>
             ) : null}
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
               {cta?.href ? (
                 <Link href={cta.href} className="btn-primary">
                   {cta.label || "Get in touch"}
